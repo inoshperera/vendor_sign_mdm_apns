@@ -80,12 +80,17 @@ function step3 {
 	rm -f MDM_APNSCert.pfx
 	rm -f ./output/MDM_APNSCert.pfx
 	openssl rsa -passin file:customerPrivateKey.txt -in customerPrivateKey.pem -out customerKeyNoPass.pem
-	cp MDM_Certificate.pem MDM_APNSCert_tmp.pem
-	echo -e "" >> MDM_APNSCert_tmp.pem 
+	cp ./inputs/MDM_Certificate.pem MDM_APNSCert_tmp.pem
+	echo  "" >> MDM_APNSCert_tmp.pem 
+	echo "1"
 	cat MDM_APNSCert_tmp.pem customerKeyNoPass.pem > MDM_APNSCert.pem
+	echo "2"
 	rm MDM_APNSCert_tmp.pem
+	echo "3"
 	openssl pkcs12 -export -passout file:customerPrivateKey.txt -out MDM_APNSCert.pfx -inkey customerKeyNoPass.pem -in MDM_APNSCert.pem
+	echo "4"
 	cp MDM_APNSCert.pfx ./output
+	echo "5"
 
 	echo "All Done!!!!"
 	echo "Summery"
@@ -103,6 +108,10 @@ function step3 {
 		rm -f customerPrivateKey.txt
 		echo "Temparary files cleared!!! Please keep the content of this folder secure."
 	fi
+}
+
+function customer {
+	python ./mdmvendorsign-master/mdm_vendor_sign.py --csr ./customer.csr --key ./noPasswordVendorPrivate.key --mdm ./inputs/mdm.cer
 }
 
 
@@ -126,6 +135,9 @@ then
 elif [ $step -eq "3" ]
 then
 	step3
+elif [ $step -eq "4" ]
+then
+	customer	
 else
 	echo -e "\n\n\nNot a valid step"
 fi
