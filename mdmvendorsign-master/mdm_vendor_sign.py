@@ -126,7 +126,7 @@ openssl rsa -in key.pem -out the_private_key.key
 	p('Downloading WWDR intermediate certificate...')
 
     # Note that using urllib2.urlopen results in a "connection reset by peer". Curl works so lets use that instead.
-	process = subprocess.Popen(['curl', 'https://developer.apple.com/certificationauthority/AppleWWDRCA.cer'], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	process = subprocess.Popen(['curl', 'https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer'], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, stderr = process.communicate()
 	intermediate_cer = stdout
 
