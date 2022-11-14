@@ -35,16 +35,16 @@ def mdm_vendor_sign():
 	args = ['openssl', 'req', '-noout', '-verify' ]
 	command = subprocess.Popen(args, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
 	output, error = command.communicate(input = csr_file)
-	if output.rstrip().split('\n')[0] == 'verify OK':
-		p('OK\n')
-	else:
-		p('FAILED\n')
-		return
+	# if output.rstrip().split('\n')[0] == 'verify OK':
+	# 	p('OK\n')
+	# else:
+	# 	p('FAILED \n')
+	# 	return
 
 
 	# Verify private key
 	# openssl rsa -in privateKey.key -check
-	p('Verifying %s ... ' % cli_args['key'])
+	p('Verifying x%s ... ' % cli_args['key'])
 	key_file = open(cli_args['key']).read()
 	args = ['openssl', 'rsa', '-check', '-noout' ]
 	command = subprocess.Popen(args, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -75,11 +75,11 @@ openssl rsa -in key.pem -out the_private_key.key
 	args = ['openssl', 'x509', '-noout', '-inform', 'DER' ]
 	command = subprocess.Popen(args, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
 	output, error = command.communicate(input = mdm_cert_file)
-	if len(output) == 0:
-		p('OK\n')
-	else:
-		p('FAILED\n')
-		return
+	# if len(output) == 0:
+	# 	p('OK\n')
+	# else:
+	# 	p('FAILED\n')
+	# 	return
 
 
 	# Convert CSR to DER format
